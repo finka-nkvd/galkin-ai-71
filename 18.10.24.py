@@ -22,3 +22,12 @@ elif start == 3:
         print("yes")
     else:
         print("no")
+elif start == 4:
+    n = 1
+    m = 1
+    x = int(input())
+    for i in range(x):
+        n+=m
+        print(n)
+        m+=n
+        print(m)
