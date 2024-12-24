@@ -1,0 +1,32 @@
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, CallbackContext
+import asyncio
+
+numbers = []
+
+async def start(update: Update) -> None:
+    await update.message.reply_text('Привет! Используйте команду /nums, чтобы добавить числа.')
+
+def save_number(update: Update, context: CallbackContext) -> None:
+    try:
+        number = float(update.message.text)
+        numbers.append(number)
+        update.message.reply_text(f'Число {number} добавлено в список!')
+    except ValueError:
+        update.message.reply_text('Пожалуйста, отправьте корректное число.')
+
+async def show_numbers(update: Update) -> None:
+        await update.message.reply_text(f'Сохранённые числа: {numbers}')
+
+async def main() -> None:
+    application = ApplicationBuilder().token('token').build()
+
+    application.add_handler(CommandHandler('start', start))
+    application.add_handler(CommandHandler('show', show_numbers))
+
+    await application.run_polling()
+
+
+if __name__ == '__main__':
+
+    asyncio.run(main())
