@@ -1,4 +1,4 @@
-token = '7352296185:AAGPWhP3_BtUsnTK2ef2LLm2idXvZWj0G8U'
+token = 'your token'
 
 import telebot
 
