@@ -1,0 +1,29 @@
+#бот для документа
+token = 'your token'
+
+import telebot
+
+bot = telebot.TeleBot(token)
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.send_message(message.chat.id, "требуется файл с числами .txt")
+
+@bot.message_handler(content_types=['document'])
+def handle_docs(message):
+    file_info = bot.get_file(message.document.file_id)
+    document = bot.download_file(file_info.file_path)
+    numbers = document.decode().strip().split(',')
+    numbers = [int(num) for num in numbers]
+    sorted_nums = bubble_sort(numbers)
+    bot.send_message(message.chat.id, 'отсортированные числа: ' + ', '.join(map(str, sorted_nums)))
+
+def bubble_sort(numbers):
+    n = len(numbers)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if numbers[j] > numbers[j + 1]:
+                numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
+    return numbers
+
+bot.polling()
