@@ -1,0 +1,23 @@
+def narayana_permutations(arr):
+    def next_permutation(a):
+        n = len(a)
+        i = n - 2
+        while i >= 0 and a[i] >= a[i + 1]:
+            i -= 1
+        if i == -1:
+            return False
+        j = n - 1        
+while a[j] <= a[i]:
+            j -= 1        
+a[i], a[j] = a[j], a[i]
+        a[i + 1:] = reversed(a[i + 1:])
+        return True   
+ arr = sorted(arr)
+    permutations = [arr[:]]
+    while next_permutation(arr):
+        permutations.append(arr[:])
+    return permutations
+
+test_cases = [[1, 4, 3, 6, 17], [1, 9, 3, 4]]
+for case in test_cases:
+    print(narayana_permutations(case), '\n')
