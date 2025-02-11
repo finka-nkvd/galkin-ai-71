@@ -1,5 +1,4 @@
 import math
-
 def calculate_combinations(counts):
     total_items = sum(counts)
     denominator = 1
@@ -21,9 +20,18 @@ def fruits(apples, fruit, oranges):
 
 def bracelets(emeralds, rubins, sapphires):
     print(calculate_combinations([emeralds, rubins, sapphires]))
+    
+task = int(input("введите номер задания: "))
 
-garlands(4, 4, 8)
-teams(2, 2, 1, 5)
-beads(4, 5, 6)
-fruits(2, 3, 4)
-bracelets(5, 6, 7)
+if task == 1:
+    garlands(4, 4, 8)
+elif task == 2:
+    teams(2, 2, 1, 5)
+elif task == 3:
+    beads(4, 5, 6)
+elif task == 4:
+    fruits(2, 3, 4)
+elif task == 5:
+    bracelets(5, 6, 7)
+else:
+    print("больше нету")
