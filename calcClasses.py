@@ -5,13 +5,13 @@ class calc:
         self.n2 = n2
 
         def add(n1, n2):
-            print(n1 + n2)
+            return n1 + n2
         def sub(n1, n2):
-            print(n1 - n2)
+            return n1 - n2
         def div(n1, n2):
-            print(n1 / n2)
+            return n1 / n2
         def mult(n1, n2):
-            print(n1 * n2)
+            return n1 * n2
 
         if self.act == '+':
             add(self.n1, self.n2)
@@ -22,4 +22,4 @@ class calc:
         if self.act == '*':
             mult(self.n1, self.n2)
 
-calc(int(input('введите знак (+, -, * или /): ')), input('введите первое число: '), int(input('введите второе число: ')))
+print(calc(int(input('введите знак (+, -, * или /): ')), input('введите первое число: '), int(input('введите второе число: '))))
