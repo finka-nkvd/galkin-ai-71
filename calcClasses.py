@@ -20,10 +20,15 @@ class calc:
         elif self.act == '-' or '2':
             sub(self.n1, self.n2)
         elif self.act == '/' or '3':
-            div(self.n1, self.n2)
+            try:
+                div(self.n1, self.n2)
+            except ZeroDivisionError:
+                return 'на ноль делить нельзя'
         elif self.act == '*' or '4':
             mult(self.n1, self.n2)
         elif self.act == '**' or '5':
             power(self.n1, self.n2)
+        else:
+            return 'error'
 
 print(calc(int(input('введите знак (1 = +, 2 = -, 3 = *, 4 = /, 5 = **): ')), input('введите первое число: '), int(input('введите второе число: '))))
