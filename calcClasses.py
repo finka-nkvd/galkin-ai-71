@@ -12,14 +12,18 @@ class calc:
             return n1 / n2
         def mult(n1, n2):
             return n1 * n2
+        def power(n1, n2):
+            return n1**n2
 
-        if self.act == '+':
+        if self.act == '+' or '1':
             add(self.n1, self.n2)
-        if self.act == '-':
+        elif self.act == '-' or '2':
             sub(self.n1, self.n2)
-        if self.act == '/':
+        elif self.act == '/' or '3':
             div(self.n1, self.n2)
-        if self.act == '*':
+        elif self.act == '*' or '4':
             mult(self.n1, self.n2)
+        elif self.act == '**' or '5':
+            power(self.n1, self.n2)
 
-print(calc(int(input('введите знак (+, -, * или /): ')), input('введите первое число: '), int(input('введите второе число: '))))
+print(calc(int(input('введите знак (1 = +, 2 = -, 3 = *, 4 = /, 5 = **): ')), input('введите первое число: '), int(input('введите второе число: '))))
