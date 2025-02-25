@@ -5,69 +5,69 @@ class Combinator:
     def __init__(self, elements):
         self.elements = elements
 
-    def narayana(self):
-        n = len(self.elements)
-        result = []
-
-        def generate_combination(prefix, remaining):
-            if len(prefix) == n:
-                result.append(prefix)
-                return
-            for i in range(len(remaining)):
-                generate_combination(prefix + [remaining[i]], remaining[:i] + remaining[i + 1:])
-
-        generate_combination([], self.elements)
-        return result
-
     def johnson_trotter(self):
         n = len(self.elements)
-        result = []
-        directions = [1] * n
-        permutation = list(self.elements)
+        elements = self.elements.copy()
+        directions = [-1] * n
 
-        def get_mobile_index():
-            mobile_index = -1
-            mobile_value = -1
+        def find_mobile():
+            max_mobile = float('-inf')
+            mobile_pos = -1
             for i in range(n):
-                if directions[i] == 1 and i < n - 1 and permutation[i] > permutation[i + 1]:
-                    if permutation[i] > mobile_value:
-                        mobile_value = permutation[i]
-                        mobile_index = i
-                elif directions[i] == 0 and i > 0 and permutation[i] > permutation[i - 1]:
-                    if permutation[i] > mobile_value:
-                        mobile_value = permutation[i]
-                        mobile_index = i
-            return mobile_index
+                if (directions[i] == -1 and i > 0 and elements[i] > elements[i - 1]) or \
+                        (directions[i] == 1 and i < n - 1 and elements[i] > elements[i + 1]):
+                    if elements[i] > max_mobile:
+                        max_mobile = elements[i]
+                        mobile_pos = i
+            return mobile_pos
 
-        def generate_permutations():
-            while True:
-                mobile_index = get_mobile_index()
-                if mobile_index == -1:
-                    break
+        def swap(i, j):
+            elements[i], elements[j] = elements[j], elements[i]
+            directions[i], directions[j] = directions[j], directions[i]
 
-                swap_index = mobile_index + directions[mobile_index]
-                permutation[mobile_index], permutation[swap_index] = permutation[swap_index], permutation[mobile_index]
-                directions[mobile_index], directions[swap_index] = directions[swap_index], directions[mobile_index]
+        def reverse_direction(mobile):
+            for i in range(n):
+                if elements[i] > mobile:
+                    directions[i] *= -1
 
-                result.append(permutation[:])
+        permutations = [elements.copy()]
 
-        result.append(permutation[:])
-        generate_permutations()
-        return result
+        while True:
+            mobile_pos = find_mobile()
+            if mobile_pos == -1:
+                break
 
-    def itertools_combinations(self):
-        result = []
-        for r in range(1, len(self.elements) + 1):
-            combinations = itertools.combinations(self.elements, r)
-            result.extend(combinations)
-        return result
+            mobile = elements[mobile_pos]
+            if directions[mobile_pos] == -1:
+                swap(mobile_pos, mobile_pos - 1)
+            else:
+                swap(mobile_pos, mobile_pos + 1)
+
+            reverse_direction(mobile)
+            permutations.append(elements.copy())
+
+        return permutations
+
+    def iter(self):
+        return list(set(itertools.permutations(self.elements)))
+
+    def narayana(self):
+        n = len(self.elements)
+
+        def generate(arr, i):
+            if i == n:
+                yield arr.copy()
+            else:
+                for j in range(i, n):
+                    arr[i], arr[j] = arr[j], arr[i]
+                    yield from generate(arr, i + 1)
+                    arr[i], arr[j] = arr[j], arr[i]
+
+        yield from generate(self.elements.copy(), 0)
 
 
-elements = input('введите элементы списка для генерации комбинаций через пробел: ').split()
-combinator = Combinator(elements)
+combinator = Combinator([1, 2, 4])
 
-print("алгоритм нарайаны:")
-print(combinator.narayana())
-
-print("\nалгоритм итертулс:")
-print(combinator.itertools_combinations())
+print(combinator.johnson_trotter())
+print(combinator.iter())
+print(list(combinator.narayana()))
