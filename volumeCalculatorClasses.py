@@ -1,0 +1,46 @@
+class cube_vol:
+    def __init__(self, a):
+        self.a = a
+
+    def main(self):
+        return self.a**3
+
+class pyramid_vol:
+    def __init__(self, s, h):
+        self.s = s
+        self.h = h
+
+    def main(self):
+        return 1/3*self.s*self.h
+
+class sphere_vol:
+    def __init__(self, r):
+        self.r = r
+
+    def main(self):
+        return 4/3*3.14*self.r**3
+
+class menu:
+    def __init__(self, figure):
+        self.figure = figure
+
+    def main(self):
+        if self.figure == 'куб' or self.figure == '1':
+            a = float(input('введите сторону куба: '))
+            print(cube_vol(a).main())
+        elif self.figure == 'пирамида' or self.figure == '3':
+            s = float(input('введите площадь основания: '))
+            h = float(input('введите высоту пирамиды: '))
+            print(pyramid_vol(s, h).main())
+        elif self.figure == 'сфера' or self.figure == '2':
+            r = float(input('введите радиус сферы: '))
+            print(sphere_vol(r).main())
+        elif self.figure == 'выход' or self.figure == '0':
+            return False
+        return True
+
+a = True
+while a:
+    figure = input('введите фигуру для нахождения объема (0. выход, 1. куб, 2. сфера, 3. пирамида): ')
+    m = menu(figure)
+    a = m.main()
